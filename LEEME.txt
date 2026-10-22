@@ -1,0 +1,22 @@
+TODOCOPIAS - SITIO WEB
+======================
+
+CÓMO SUBIRLO
+Subí TODO el contenido de esta carpeta (no la carpeta, su contenido) a la carpeta
+pública de tu hosting (normalmente "public_html" o "www"). No necesita base de datos.
+
+ANTES DE PUBLICAR
+1. En robots.txt y sitemap.xml reemplazá "www.TU-DOMINIO.com.ar" por tu dominio real.
+2. Después de publicar, cargá el sitio en Google Search Console y enviá el sitemap.
+3. Agregá la URL de la web en tu Perfil de Empresa de Google.
+
+COSAS PARA COMPLETAR
+- Fotos: buscá "FOTO:" en index.html, agendas.html y stickers.html. Cada recuadro gris
+  tiene al lado el código para reemplazarlo. Poné las fotos en la carpeta img/.
+- Stickers de papel de 3 cm: buscá "COMPLETAR" en stickers.html.
+
+CONFIGURACIÓN (js/main.js, al principio del archivo)
+- Horarios y días de atención.
+- Mes desde el que la agenda muestra el año siguiente (hoy: julio).
+- Calculadora de vinilo: ancho del rollo, largo mínimo, paso (medio metro),
+  margen de corte y separación entre stickers.

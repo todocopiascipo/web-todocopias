@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.TU-DOMINIO.com.ar/sitemap.xml
