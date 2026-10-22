@@ -11,7 +11,7 @@ ANTES DE PUBLICAR
 3. Agregá la URL de la web en tu Perfil de Empresa de Google.
 
 COSAS PARA COMPLETAR
-- Fotos: buscá "FOTO:" en index.html, agendas.html y stickers.html. Cada recuadro gris
+- Fotos: buscá "FOTO:" en los archivos .html. Cada recuadro gris
   tiene al lado el código para reemplazarlo. Poné las fotos en la carpeta img/.
 - Stickers de papel de 3 cm: buscá "COMPLETAR" en stickers.html.
 

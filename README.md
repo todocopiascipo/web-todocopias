@@ -10,6 +10,7 @@ Sitio estático: HTML, CSS y JavaScript, sin base de datos ni instalación.
 | `index.html` | Inicio: portada, formas de imprimir, productos, papeles, preguntas frecuentes, horarios y mapa |
 | `agendas.html` | Agendas y libretas personalizadas |
 | `stickers.html` | Stickers de papel y de vinilo, con calculadora |
+| `impresiones.html`, `anillados.html`, `plastificados.html`, `tarjetas.html`, `banners.html`, `carteles-foam.html`, `carteles-nfc-qr.html`, `vinilos.html`, `cartel-auto.html`, `diseno.html` | Una página por producto de "Qué hacemos" (anillados incluye la tabla de anillos) |
 
 ## Estructura
 
