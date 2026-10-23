@@ -380,10 +380,10 @@ h1, h2, h3, p { margin: 0; }
 }
 
 /* Tarjetas doble faz cruzadas: se dan vuelta al pasar el mouse o al tocarlas */
-.flip-cards { position: relative; width: 100%; max-width: 520px; margin: 0 auto; aspect-ratio: 1 / 0.86; perspective: 1400px; }
-.flip-card { position: absolute; width: 70%; aspect-ratio: 1.6; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 12px; transform: translate(-50%, -50%) rotate(var(--rot)); transition: transform .5s cubic-bezier(.2, .7, .2, 1); -webkit-tap-highlight-color: transparent; }
-.flip-card--a { --rot: -17deg; left: 44%; top: 42%; z-index: 1; }
-.flip-card--b { --rot: 17deg; left: 56%; top: 58%; z-index: 2; }
+.flip-cards { position: relative; width: 100%; max-width: 520px; margin: 0 auto; aspect-ratio: 1 / 0.92; perspective: 1400px; }
+.flip-card { position: absolute; width: 60%; aspect-ratio: 1.6; padding: 0; border: 0; background: none; cursor: pointer; border-radius: 12px; transform: translate(-50%, -50%) rotate(var(--rot)); transition: transform .5s cubic-bezier(.2, .7, .2, 1); -webkit-tap-highlight-color: transparent; }
+.flip-card--a { --rot: -17deg; left: 34%; top: 30%; z-index: 1; }
+.flip-card--b { --rot: 17deg; left: 66%; top: 70%; z-index: 2; }
 .flip-card__inner { display: block; position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2, .7, .2, 1); }
 .flip-card__face { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 12px; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 6px 18px rgba(10, 16, 48, 0.22); }
 .flip-card__face--back { transform: rotateY(180deg); }
