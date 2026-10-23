@@ -370,10 +370,28 @@ var TC = {
     pintarMudo();
   }
 
+  /* ---------- Tarjetas doble faz (tocar para dar vuelta en celular) ---------- */
+  function iniciarTarjetasFlip() {
+    var tarjetas = document.querySelectorAll('.flip-card');
+    var tactil = window.matchMedia && window.matchMedia('(hover: none)');
+    for (var i = 0; i < tarjetas.length; i++) {
+      tarjetas[i].addEventListener('click', function (e) {
+        var t = e.currentTarget;
+        // Con mouse se da vuelta con el hover; el clic solo cuenta en pantallas táctiles o con teclado
+        if (tactil && !tactil.matches && e.detail !== 0) return;
+        var vuelta = !t.classList.contains('is-flipped');
+        t.classList.toggle('is-flipped', vuelta);
+        t.setAttribute('aria-pressed', vuelta ? 'true' : 'false');
+        t.setAttribute('aria-label', t.getAttribute('aria-label').replace(vuelta ? 'mostrar el dorso' : 'mostrar el frente', vuelta ? 'mostrar el frente' : 'mostrar el dorso'));
+      });
+    }
+  }
+
   /* ---------- Inicio ---------- */
   function iniciar() {
     iniciarCarruseles();
     iniciarHojas();
+    iniciarTarjetasFlip();
     pintarEstado();
     setInterval(pintarEstado, 60000);
     pintarAnio();

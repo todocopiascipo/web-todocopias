@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
-<link rel="stylesheet" href="css/styles.css?v=5">
+<link rel="stylesheet" href="css/styles.css?v=6">
 </head>
 <body>
 <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -48,18 +48,21 @@
         </div>
       </div>
       <div class="hero__media">
-        <div class="carousel" data-carousel role="region" aria-roledescription="carrusel" aria-label="Fotos de tarjetas y gift cards" style="--ratio: 1 / 1">
-          <div class="carousel__frame">
-            <div class="carousel__track" tabindex="0" aria-label="Fotos de tarjetas y gift cards. Usá las flechas para cambiar de foto.">
-              <figure class="carousel__slide"><img class="photo" src="img/tarjetas.jpg" alt="Tarjetas de presentación impresas para una panadería" width="1536" height="1024"></figure>
-              <figure class="carousel__slide"><img class="photo" src="img/gift-card.jpg" alt="Gift card impresa para una vinoteca, frente y dorso" width="1402" height="1122" loading="lazy"></figure>
-              <figure class="carousel__slide"><img class="photo" src="img/tarjetas-y-gift-cards.jpg" alt="Tarjetas de presentación y gift card de distintos negocios" width="1120" height="1600" loading="lazy"></figure>
-            </div>
-            <button type="button" class="carousel__btn carousel__btn--prev" data-prev aria-label="Foto anterior"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
-            <button type="button" class="carousel__btn carousel__btn--next" data-next aria-label="Foto siguiente"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-          </div>
-          <div class="carousel__dots"></div>
+        <div class="flip-cards" data-flip-cards>
+          <button type="button" class="flip-card flip-card--a" aria-pressed="false" aria-label="Tarjeta doble faz de Valley's Burger: mostrar el dorso">
+            <span class="flip-card__inner">
+              <img class="flip-card__face" src="img/tarjeta-valleys-frente.jpg" alt="" width="792" height="492">
+              <img class="flip-card__face flip-card__face--back" src="img/tarjeta-valleys-dorso.jpg" alt="" width="792" height="492">
+            </span>
+          </button>
+          <button type="button" class="flip-card flip-card--b" aria-pressed="false" aria-label="Tarjeta doble faz de Jadever: mostrar el dorso">
+            <span class="flip-card__inner">
+              <img class="flip-card__face" src="img/tarjeta-jadever-frente.jpg" alt="" width="792" height="509">
+              <img class="flip-card__face flip-card__face--back" src="img/tarjeta-jadever-dorso.jpg" alt="" width="792" height="509">
+            </span>
+          </button>
         </div>
+        <p class="flip-cards__hint">Pasá el mouse o tocá una tarjeta para ver el dorso</p>
       </div>
     </div>
   </section>
@@ -72,6 +75,26 @@
         <div class="feature"><span>MEDIDA</span><p>9 × 5 cm</p></div>
         <div class="feature"><span>PAPEL</span><p>Chambril 180 g</p></div>
         <div class="feature"><span>IMPRESIÓN</span><p>Simple o doble faz</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section stack" aria-labelledby="t-gift">
+    <div class="head">
+      <h2 class="h2" id="t-gift">Gift cards</h2>
+      <p class="sub">También hacemos gift cards para tu negocio.</p>
+    </div>
+    <div class="gift-media">
+      <div class="carousel" data-carousel role="region" aria-roledescription="carrusel" aria-label="Fotos de gift cards" style="--ratio: 1 / 1">
+        <div class="carousel__frame">
+          <div class="carousel__track" tabindex="0" aria-label="Fotos de gift cards. Usá las flechas para cambiar de foto.">
+            <figure class="carousel__slide"><img class="photo" src="img/gift-card.jpg" alt="Gift card impresa para una vinoteca, frente y dorso" width="1402" height="1122" loading="lazy"></figure>
+            <figure class="carousel__slide"><img class="photo" src="img/tarjetas-y-gift-cards.jpg" alt="Tarjetas de presentación y gift card de distintos negocios" width="1120" height="1600" loading="lazy"></figure>
+          </div>
+          <button type="button" class="carousel__btn carousel__btn--prev" data-prev aria-label="Foto anterior"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button type="button" class="carousel__btn carousel__btn--next" data-next aria-label="Foto siguiente"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="carousel__dots"></div>
       </div>
     </div>
   </section>
@@ -111,6 +134,6 @@
 
 <a class="wa-float" href="https://wa.me/5492995973790?text=Hola%2C%20quiero%20hacer%20una%20consulta" aria-label="Escribinos por WhatsApp"><svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor"><path d="M11.42 9.49c-.19-.09-1.1-.54-1.27-.61s-.29-.09-.42.1-.48.6-.59.73-.21.14-.4 0a5.13 5.13 0 0 1-1.49-.92 5.25 5.25 0 0 1-1-1.29c-.11-.18 0-.28.08-.38s.18-.21.28-.32a1.39 1.39 0 0 0 .18-.31.38.38 0 0 0 0-.33c0-.09-.42-1-.58-1.37s-.3-.32-.41-.32h-.4a.72.72 0 0 0-.5.23 2.1 2.1 0 0 0-.65 1.55A3.59 3.59 0 0 0 5 8.2 8.32 8.32 0 0 0 8.19 11c.44.19.78.3 1.05.39a2.53 2.53 0 0 0 1.17.07 1.93 1.93 0 0 0 1.26-.88 1.67 1.67 0 0 0 .11-.88c-.05-.07-.17-.12-.36-.21z"/><path d="M13.29 2.68A7.36 7.36 0 0 0 8 .5a7.44 7.44 0 0 0-6.41 11.15l-1 3.85 3.94-1a7.4 7.4 0 0 0 3.55.9H8a7.44 7.44 0 0 0 5.29-12.72zM8 14.12a6.12 6.12 0 0 1-3.15-.87l-.22-.13-2.34.61.62-2.28-.14-.23a6.18 6.18 0 0 1 9.6-7.65 6.12 6.12 0 0 1 1.81 4.37A6.19 6.19 0 0 1 8 14.12z"/></svg></a>
 
-<script src="js/main.js?v=5" defer></script>
+<script src="js/main.js?v=6" defer></script>
 </body>
 </html>
