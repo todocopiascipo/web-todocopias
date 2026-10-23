@@ -371,3 +371,10 @@ h1, h2, h3, p { margin: 0; }
   .ph--a4 { max-width: 240px; }
   .calc__form, .calc__result { padding: 24px 22px; }
 }
+
+/* Cartel del auto: PNG blanco sobre el fondo azul, se mueve un poco al pasar el mouse */
+.sign-png { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .sign-png { transition: transform .35s ease; transform-origin: 50% 0; }
+  .sign-png:hover { transform: rotate(-2deg) translateY(-4px) scale(1.02); }
+}
