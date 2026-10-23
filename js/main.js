@@ -233,12 +233,141 @@ var TC = {
     })(carruseles[c]);
   }
 
-  /* ---------- Hojas A3 y A4: al tocarlas en el celular se dobla la esquina ---------- */
-  function iniciarHojas() {
-    var hojas = document.querySelectorAll('[data-sheet]');
-    for (var i = 0; i < hojas.length; i++) {
-      hojas[i].addEventListener('click', function () { this.classList.toggle('is-active'); });
+  /* ---------- Sonidos (generados con Web Audio, sin archivos) ---------- */
+  var sonido = { ctx: null, mudo: false };
+  try { sonido.mudo = localStorage.getItem('tc-sonido') === 'off'; } catch (e) {}
+
+  function audio() {
+    if (sonido.mudo) return null;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return null;
+    if (!sonido.ctx) sonido.ctx = new AC();
+    if (sonido.ctx.state === 'suspended') sonido.ctx.resume();
+    return sonido.ctx;
+  }
+
+  // Hoja que se rasga: ruido blanco filtrado con un volumen que "cruje"
+  function sonidoRasgado(seg) {
+    var ctx = audio();
+    if (!ctx) return;
+    var t0 = ctx.currentTime, n = Math.floor(ctx.sampleRate * seg);
+    var buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+    for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    var src = ctx.createBufferSource(); src.buffer = buf;
+    var bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 2600; bp.Q.value = 0.9;
+    var hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 900;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(0, t0);
+    for (var t = 0; t < seg - 0.04; t += 0.018) {
+      g.gain.setValueAtTime(0.05 + Math.random() * 0.14, t0 + t);
     }
+    g.gain.linearRampToValueAtTime(0, t0 + seg);
+    src.connect(bp); bp.connect(hp); hp.connect(g); g.connect(ctx.destination);
+    src.start(t0); src.stop(t0 + seg);
+  }
+
+  // "Plop": tono corto que cae rápido de agudo a grave
+  function sonidoPlop() {
+    var ctx = audio();
+    if (!ctx) return;
+    var t0 = ctx.currentTime;
+    var o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'sine';
+    o.frequency.setValueAtTime(600, t0);
+    o.frequency.exponentialRampToValueAtTime(150, t0 + 0.12);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.28, t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.14);
+    o.connect(g); g.connect(ctx.destination);
+    o.start(t0); o.stop(t0 + 0.16);
+  }
+
+  /* ---------- Hojas: al tocarlas se cortan en dos (A3 → A4 → … → A7) ---------- */
+  var HOJAS = { A3: '297 × 420', A4: '210 × 297', A5: '148 × 210', A6: '105 × 148', A7: '74 × 105' };
+  var ORDEN = ['A3', 'A4', 'A5', 'A6', 'A7'];
+
+  function crearHoja(tam, orient) {
+    var sig = ORDEN[ORDEN.indexOf(tam) + 1];
+    var nodo = document.createElement('div');
+    nodo.className = 'sheet-node';
+    nodo.setAttribute('data-size', tam);
+    nodo.setAttribute('data-orient', orient);
+    var mm = HOJAS[tam] + ' mm';
+    var label = sig ? 'Cortar hoja ' + tam + ' (' + mm + ') en dos ' + sig : 'Hoja ' + tam + ' (' + mm + '), es el tamaño más chico';
+    nodo.innerHTML =
+      '<button type="button" class="sheet" aria-label="' + label + '" title="' + tam + ' · ' + mm + '">' +
+      '<span class="sheet__lines" aria-hidden="true"><i></i><i></i><i></i><i></i></span>' +
+      '<span class="sheet__size" aria-hidden="true">' + tam + '</span>' +
+      '<span class="sheet__mm" aria-hidden="true">' + mm + '</span>' +
+      '<span class="sheet__cut" aria-hidden="true"></span></button>';
+    return nodo;
+  }
+
+  function iniciarHojas() {
+    var caja = document.querySelector('[data-sheets]');
+    if (!caja) return;
+    var reducir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var original = caja.innerHTML;
+    var btnReset = document.querySelector('[data-sheets-reset]');
+    var btnMudo = document.querySelector('[data-sheets-mute]');
+    var vivo = document.querySelector('[data-sheets-live]');
+    var ocupado = false;
+
+    function pintarMudo() {
+      btnMudo.setAttribute('aria-pressed', sonido.mudo ? 'true' : 'false');
+      btnMudo.setAttribute('aria-label', sonido.mudo ? 'Activar sonidos' : 'Silenciar sonidos');
+    }
+
+    function cortar(nodo) {
+      var tam = nodo.getAttribute('data-size');
+      var sig = ORDEN[ORDEN.indexOf(tam) + 1];
+      if (!sig) {
+        nodo.classList.remove('is-shake');
+        void nodo.offsetWidth;
+        nodo.classList.add('is-shake');
+        vivo.textContent = 'La hoja ' + tam + ' es la más chica, no se corta más.';
+        return;
+      }
+      ocupado = true;
+      var demora = reducir ? 0 : 700;
+      nodo.classList.add('is-cutting');
+      sonidoRasgado(reducir ? 0.35 : 0.7);
+      setTimeout(function () {
+        var orient = nodo.getAttribute('data-orient');
+        var hijaOrient = orient === 'v' ? 'h' : 'v';
+        var a = crearHoja(sig, hijaOrient), b = crearHoja(sig, hijaOrient);
+        var eje = orient === 'v' ? '--sy' : '--sx';
+        a.style.setProperty(eje, '1'); b.style.setProperty(eje, '-1');
+        a.classList.add('is-new'); b.classList.add('is-new');
+        nodo.classList.remove('is-cutting');
+        nodo.classList.add('is-split');
+        nodo.innerHTML = '';
+        nodo.appendChild(a); nodo.appendChild(b);
+        sonidoPlop();
+        vivo.textContent = 'Ahora tenés dos hojas ' + sig + ' de ' + HOJAS[sig] + ' mm.';
+        btnReset.hidden = false;
+        a.querySelector('.sheet').focus({ preventScroll: true });
+        ocupado = false;
+      }, demora);
+    }
+
+    caja.addEventListener('click', function (e) {
+      var btn = e.target.closest('.sheet');
+      if (!btn || ocupado) return;
+      cortar(btn.parentNode);
+    });
+    btnReset.addEventListener('click', function () {
+      caja.innerHTML = original;
+      btnReset.hidden = true;
+      vivo.textContent = 'Volviste a las hojas A3 y A4.';
+      caja.querySelector('.sheet').focus({ preventScroll: true });
+    });
+    btnMudo.addEventListener('click', function () {
+      sonido.mudo = !sonido.mudo;
+      try { localStorage.setItem('tc-sonido', sonido.mudo ? 'off' : 'on'); } catch (e) {}
+      pintarMudo();
+    });
+    pintarMudo();
   }
 
   /* ---------- Inicio ---------- */
