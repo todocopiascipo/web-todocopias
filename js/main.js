@@ -233,9 +233,18 @@ var TC = {
     })(carruseles[c]);
   }
 
+  /* ---------- Hojas A3 y A4: al tocarlas en el celular se dobla la esquina ---------- */
+  function iniciarHojas() {
+    var hojas = document.querySelectorAll('[data-sheet]');
+    for (var i = 0; i < hojas.length; i++) {
+      hojas[i].addEventListener('click', function () { this.classList.toggle('is-active'); });
+    }
+  }
+
   /* ---------- Inicio ---------- */
   function iniciar() {
     iniciarCarruseles();
+    iniciarHojas();
     pintarEstado();
     setInterval(pintarEstado, 60000);
     pintarAnio();
