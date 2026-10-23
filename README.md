@@ -10,14 +10,14 @@ Sitio estático: HTML, CSS y JavaScript, sin base de datos ni instalación.
 | `index.html` | Inicio: portada, formas de imprimir, productos, papeles, preguntas frecuentes, horarios y mapa |
 | `agendas.html` | Agendas y libretas personalizadas |
 | `stickers.html` | Stickers de papel y de vinilo, con calculadora |
-| `impresiones.html`, `anillados.html`, `plastificados.html`, `tarjetas.html`, `banners.html`, `carteles-foam.html`, `carteles-nfc-qr.html`, `vinilos.html`, `cartel-auto.html`, `diseno.html` | Una página por producto de "Qué hacemos" (anillados incluye la tabla de anillos) |
+| `impresiones.html`, `anillados.html`, `plastificados.html`, `tarjetas.html`, `banners.html`, `carteles-foam.html`, `carteles-nfc-qr.html`, `vinilos.html`, `cartel-auto.html`, `diseno.html`, `talonarios.html`, `librillos.html`, `etiquetas.html`, `tarjetas-taller.html` | Una página por producto de "Qué hacemos" (anillados incluye la tabla de anillos) |
 
 ## Estructura
 
 ```
 css/styles.css   estilos (colores y tipografía de la marca)
-js/main.js       horario abierto/cerrado, año de la agenda, calculadora de vinilo
-img/             logos, ícono de WhatsApp y favicon
+js/main.js       horario abierto/cerrado, año de la agenda, calculadora de vinilo, carruseles de fotos
+img/             logos, ícono de WhatsApp, favicon y fotos de productos
 robots.txt       para buscadores (cambiar el dominio antes de publicar)
 sitemap.xml      para buscadores (cambiar el dominio antes de publicar)
 ```

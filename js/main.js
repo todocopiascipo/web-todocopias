@@ -180,8 +180,62 @@ var TC = {
     }
   }
 
+  /* ---------- Carrusel de fotos ---------- */
+  function iniciarCarruseles() {
+    var reducir = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var carruseles = document.querySelectorAll('[data-carousel]');
+    for (var c = 0; c < carruseles.length; c++) (function (car) {
+      var track = car.querySelector('.carousel__track');
+      var slides = track.children;
+      var total = slides.length;
+      var dotsBox = car.querySelector('.carousel__dots');
+      var dots = [];
+      var actual = 0;
+
+      for (var i = 0; i < total; i++) {
+        slides[i].setAttribute('role', 'group');
+        slides[i].setAttribute('aria-roledescription', 'foto');
+        slides[i].setAttribute('aria-label', (i + 1) + ' de ' + total);
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.className = 'carousel__dot';
+        d.setAttribute('aria-label', 'Ver foto ' + (i + 1) + ' de ' + total);
+        d.addEventListener('click', (function (n) { return function () { ir(n); }; })(i));
+        dotsBox.appendChild(d);
+        dots.push(d);
+      }
+
+      function marcar(n) {
+        actual = n;
+        for (var k = 0; k < total; k++) {
+          if (k === n) dots[k].setAttribute('aria-current', 'true');
+          else dots[k].removeAttribute('aria-current');
+        }
+      }
+      function ir(n) {
+        n = (n + total) % total;
+        track.scrollTo({ left: n * track.clientWidth, behavior: reducir ? 'auto' : 'smooth' });
+        marcar(n);
+      }
+
+      car.querySelector('[data-prev]').addEventListener('click', function () { ir(actual - 1); });
+      car.querySelector('[data-next]').addEventListener('click', function () { ir(actual + 1); });
+      track.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); ir(actual - 1); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); ir(actual + 1); }
+      });
+      track.addEventListener('scroll', function () {
+        var w = track.clientWidth;
+        if (w > 0) marcar(Math.min(total - 1, Math.round(track.scrollLeft / w)));
+      });
+      window.addEventListener('resize', function () { track.scrollLeft = actual * track.clientWidth; });
+      marcar(0);
+    })(carruseles[c]);
+  }
+
   /* ---------- Inicio ---------- */
   function iniciar() {
+    iniciarCarruseles();
     pintarEstado();
     setInterval(pintarEstado, 60000);
     pintarAnio();
